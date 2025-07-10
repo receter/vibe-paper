@@ -1,6 +1,6 @@
 import "./Editor.css";
 
-import React, { useEffect, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 
 interface EditorProps {
   /** Current note content */
@@ -14,7 +14,7 @@ interface EditorProps {
 /**
  * Full-screen editor component
  */
-export const Editor: React.FC<EditorProps> = ({
+export const Editor: FC<EditorProps> = ({
   content,
   onChange,
   isSidebarOpen,

@@ -1,6 +1,6 @@
 import "./Sidebar.css";
 
-import React from "react";
+import { FC } from "react";
 
 interface SidebarProps {
   /** Whether sidebar is open */
@@ -20,7 +20,7 @@ interface SidebarProps {
 /**
  * Sidebar component with notes list
  */
-export const Sidebar: React.FC<SidebarProps> = ({
+export const Sidebar: FC<SidebarProps> = ({
   isOpen,
   notes,
   currentNote,

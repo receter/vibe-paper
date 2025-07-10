@@ -1,6 +1,6 @@
 import "./Header.css";
 
-import React from "react";
+import { FC } from "react";
 
 interface HeaderProps {
   /** Current note title */
@@ -14,7 +14,7 @@ interface HeaderProps {
 /**
  * Header component with title and sidebar toggle
  */
-export const Header: React.FC<HeaderProps> = ({
+export const Header: FC<HeaderProps> = ({
   title,
   isSidebarOpen,
   onToggleSidebar,
