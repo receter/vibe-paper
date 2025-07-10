@@ -1,37 +1,130 @@
 import "./App.css";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import viteLogo from "/vite.svg";
+import { Editor } from "./components/Editor";
+import { Header } from "./components/Header";
+import { Sidebar } from "./components/Sidebar";
+import { useDebounce } from "./hooks/useDebounce";
+import { generateUniqueRandomName } from "./utils/nameGenerator";
+import { deleteNote, getAllNotes, loadNote, saveNote } from "./utils/storage";
 
-import reactLogo from "./assets/react.svg";
-
+/**
+ * Main Paper application component
+ * Manages state for notes, editor content, and sidebar visibility
+ */
 function App() {
-  const [count, setCount] = useState(0);
+  const [currentNoteTitle, setCurrentNoteTitle] = useState<string>("");
+  const [noteContent, setNoteContent] = useState<string>("");
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+  const [allNotes, setAllNotes] = useState<string[]>([]);
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
+
+  // Debounce content changes for auto-save
+  const debouncedContent = useDebounce(noteContent, 300);
+
+  // Initialize app on mount
+  useEffect(() => {
+    const existingNotes = getAllNotes();
+    setAllNotes(existingNotes);
+
+    // Create a new note with random name
+    const newNoteTitle = generateUniqueRandomName(existingNotes);
+    setCurrentNoteTitle(newNoteTitle);
+    setNoteContent("");
+    setIsInitialized(true);
+  }, []);
+
+  // Auto-save functionality
+  useEffect(() => {
+    if (isInitialized && currentNoteTitle && debouncedContent.trim()) {
+      saveNote(currentNoteTitle, debouncedContent);
+
+      // Update notes list if this is a new note
+      if (!allNotes.includes(currentNoteTitle)) {
+        setAllNotes((prev) => [...prev, currentNoteTitle].sort());
+      }
+    }
+  }, [debouncedContent, currentNoteTitle, isInitialized, allNotes]);
+
+  /**
+   * Handle sidebar toggle
+   */
+  const handleToggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  /**
+   * Handle note selection from sidebar
+   */
+  const handleSelectNote = (noteTitle: string) => {
+    if (noteTitle === currentNoteTitle) {
+      setIsSidebarOpen(false);
+      return;
+    }
+
+    const content = loadNote(noteTitle) || "";
+    setCurrentNoteTitle(noteTitle);
+    setNoteContent(content);
+    setIsSidebarOpen(false);
+  };
+
+  /**
+   * Handle creating a new note
+   */
+  const handleNewNote = () => {
+    const newNoteTitle = generateUniqueRandomName(allNotes);
+    setCurrentNoteTitle(newNoteTitle);
+    setNoteContent("");
+    setIsSidebarOpen(false);
+  };
+
+  /**
+   * Handle deleting a note
+   */
+  const handleDeleteNote = (noteTitle: string) => {
+    deleteNote(noteTitle);
+    const updatedNotes = allNotes.filter((title) => title !== noteTitle);
+    setAllNotes(updatedNotes);
+
+    // If we deleted the current note, create a new one
+    if (noteTitle === currentNoteTitle) {
+      const newNoteTitle = generateUniqueRandomName(updatedNotes);
+      setCurrentNoteTitle(newNoteTitle);
+      setNoteContent("");
+    }
+  };
+
+  /**
+   * Handle editor content changes
+   */
+  const handleContentChange = (content: string) => {
+    setNoteContent(content);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="app">
+      <Header
+        title={currentNoteTitle}
+        isSidebarOpen={isSidebarOpen}
+        onToggleSidebar={handleToggleSidebar}
+      />
+
+      <Editor
+        content={noteContent}
+        onChange={handleContentChange}
+        isSidebarOpen={isSidebarOpen}
+      />
+
+      <Sidebar
+        isOpen={isSidebarOpen}
+        notes={allNotes}
+        currentNote={currentNoteTitle}
+        onSelectNote={handleSelectNote}
+        onNewNote={handleNewNote}
+        onDeleteNote={handleDeleteNote}
+      />
+    </div>
   );
 }
 

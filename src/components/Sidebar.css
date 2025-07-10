@@ -1,0 +1,133 @@
+/* Sidebar styles */
+.sidebar {
+  position: fixed;
+  top: 60px;
+  right: -300px;
+  width: 300px;
+  height: calc(100vh - 60px);
+  background: #f8f9fa;
+  border-left: 1px solid #e0e0e0;
+  transition: right 0.3s ease;
+  z-index: 999;
+  overflow-y: auto;
+}
+
+.sidebar--open {
+  right: 0;
+}
+
+.sidebar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  background: #fff;
+}
+
+.sidebar__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.sidebar__new-note-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar__new-note-btn:hover {
+  background: #0056b3;
+}
+
+.sidebar__notes-list {
+  padding: 10px 0;
+}
+
+.sidebar__empty-state {
+  padding: 40px 20px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+.sidebar__note-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar__note-item:hover {
+  background: #f0f0f0;
+}
+
+.sidebar__note-item--active {
+  background: #e3f2fd;
+  border-left: 3px solid #007bff;
+}
+
+.sidebar__note-title {
+  flex: 1;
+  font-size: 14px;
+  color: #333;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-right: 8px;
+}
+
+.sidebar__delete-btn {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 18px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  opacity: 0;
+}
+
+.sidebar__note-item:hover .sidebar__delete-btn {
+  opacity: 1;
+}
+
+.sidebar__delete-btn:hover {
+  background: #ff4444;
+  color: white;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 250px;
+    right: -250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: 100%;
+    right: -100%;
+  }
+}
