@@ -1,0 +1,40 @@
+# Paper App - Cursor AI Context
+
+## Project Overview
+This is the Paper app - a minimalist note-taking application focused on distraction-free writing.
+
+## Architecture Reference
+Please read `architecture.md` for detailed information about:
+- System architecture and design decisions
+- Technology stack and rationale
+- Component structure and data flow
+- Storage strategy and performance considerations
+
+## Key Files
+- `architecture.md` - Complete architecture documentation
+- `src/App.tsx` - Main application component
+- `src/components/` - React components
+- `src/styles/` - CSS styling
+- `src/utils/` - Utility functions
+
+## Development Guidelines
+- Keep the UI minimal and distraction-free
+- Use TypeScript for type safety
+- Follow the architecture decisions documented in `architecture.md`
+- Maintain the auto-save functionality
+- Ensure localStorage operations are efficient
+
+## Code Style
+- Use React hooks (useState, useEffect)
+- Keep components small and focused
+- Use CSS for styling (no external UI libraries)
+- Follow the existing ESLint and Prettier configuration
+
+## Testing Notes
+- Test localStorage functionality across browser sessions
+- Verify auto-save works correctly
+- Ensure random name generation produces unique names
+- Test sidebar functionality and note switching
+
+## Important: 
+Always refer to `architecture.md` when making significant changes to understand the design decisions and maintain consistency with the overall architecture.

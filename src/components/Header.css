@@ -1,0 +1,66 @@
+/* Header styles */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 1000;
+}
+
+.header__title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 60px);
+}
+
+.header__sidebar-toggle {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.header__sidebar-toggle:hover {
+  background-color: #f0f0f0;
+}
+
+.header__menu-icon {
+  display: flex;
+  flex-direction: column;
+  width: 20px;
+  height: 16px;
+}
+
+.header__menu-icon span {
+  height: 2px;
+  background-color: #333;
+  margin: 2px 0;
+  transition: 0.3s;
+  border-radius: 1px;
+}
+
+.header__menu-icon span:first-child {
+  width: 100%;
+}
+
+.header__menu-icon span:nth-child(2) {
+  width: 80%;
+}
+
+.header__menu-icon span:last-child {
+  width: 60%;
+}
