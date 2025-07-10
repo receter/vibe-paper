@@ -1,24 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { Header } from './components/Header';
-import { Editor } from './components/Editor';
-import { Sidebar } from './components/Sidebar';
-import { useDebounce } from './hooks/useDebounce';
-import { 
-  saveNote, 
-  loadNote, 
-  getAllNotes, 
-  deleteNote 
-} from './utils/storage';
-import { generateUniqueRandomName } from './utils/nameGenerator';
-import './App.css';
+import "./App.css";
+
+import React, { useEffect, useState } from "react";
+
+import { Editor } from "./components/Editor";
+import { Header } from "./components/Header";
+import { Sidebar } from "./components/Sidebar";
+import { useDebounce } from "./hooks/useDebounce";
+import { generateUniqueRandomName } from "./utils/nameGenerator";
+import { deleteNote, getAllNotes, loadNote, saveNote } from "./utils/storage";
 
 /**
  * Main Paper application component
  * Manages state for notes, editor content, and sidebar visibility
  */
 function App() {
-  const [currentNoteTitle, setCurrentNoteTitle] = useState<string>('');
-  const [noteContent, setNoteContent] = useState<string>('');
+  const [currentNoteTitle, setCurrentNoteTitle] = useState<string>("");
+  const [noteContent, setNoteContent] = useState<string>("");
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [allNotes, setAllNotes] = useState<string[]>([]);
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
@@ -30,11 +27,11 @@ function App() {
   useEffect(() => {
     const existingNotes = getAllNotes();
     setAllNotes(existingNotes);
-    
+
     // Create a new note with random name
     const newNoteTitle = generateUniqueRandomName(existingNotes);
     setCurrentNoteTitle(newNoteTitle);
-    setNoteContent('');
+    setNoteContent("");
     setIsInitialized(true);
   }, []);
 
@@ -42,10 +39,10 @@ function App() {
   useEffect(() => {
     if (isInitialized && currentNoteTitle && debouncedContent.trim()) {
       saveNote(currentNoteTitle, debouncedContent);
-      
+
       // Update notes list if this is a new note
       if (!allNotes.includes(currentNoteTitle)) {
-        setAllNotes(prev => [...prev, currentNoteTitle].sort());
+        setAllNotes((prev) => [...prev, currentNoteTitle].sort());
       }
     }
   }, [debouncedContent, currentNoteTitle, isInitialized, allNotes]);
@@ -66,7 +63,7 @@ function App() {
       return;
     }
 
-    const content = loadNote(noteTitle) || '';
+    const content = loadNote(noteTitle) || "";
     setCurrentNoteTitle(noteTitle);
     setNoteContent(content);
     setIsSidebarOpen(false);
@@ -78,7 +75,7 @@ function App() {
   const handleNewNote = () => {
     const newNoteTitle = generateUniqueRandomName(allNotes);
     setCurrentNoteTitle(newNoteTitle);
-    setNoteContent('');
+    setNoteContent("");
     setIsSidebarOpen(false);
   };
 
@@ -87,14 +84,14 @@ function App() {
    */
   const handleDeleteNote = (noteTitle: string) => {
     deleteNote(noteTitle);
-    const updatedNotes = allNotes.filter(title => title !== noteTitle);
+    const updatedNotes = allNotes.filter((title) => title !== noteTitle);
     setAllNotes(updatedNotes);
 
     // If we deleted the current note, create a new one
     if (noteTitle === currentNoteTitle) {
       const newNoteTitle = generateUniqueRandomName(updatedNotes);
       setCurrentNoteTitle(newNoteTitle);
-      setNoteContent('');
+      setNoteContent("");
     }
   };
 
@@ -112,13 +109,13 @@ function App() {
         isSidebarOpen={isSidebarOpen}
         onToggleSidebar={handleToggleSidebar}
       />
-      
+
       <Editor
         content={noteContent}
         onChange={handleContentChange}
         isSidebarOpen={isSidebarOpen}
       />
-      
+
       <Sidebar
         isOpen={isSidebarOpen}
         notes={allNotes}

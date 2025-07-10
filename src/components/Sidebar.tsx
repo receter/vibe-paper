@@ -1,5 +1,6 @@
-import React from 'react';
-import './Sidebar.css';
+import "./Sidebar.css";
+
+import React from "react";
 
 interface SidebarProps {
   /** Whether sidebar is open */
@@ -25,7 +26,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   currentNote,
   onSelectNote,
   onNewNote,
-  onDeleteNote
+  onDeleteNote,
 }) => {
   const handleDeleteNote = (e: React.MouseEvent, title: string) => {
     e.stopPropagation();
@@ -35,10 +36,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   return (
-    <div className={`sidebar ${isOpen ? 'sidebar--open' : ''}`}>
+    <div className={`sidebar ${isOpen ? "sidebar--open" : ""}`}>
       <div className="sidebar__header">
         <h2 className="sidebar__title">Notes</h2>
-        <button 
+        <button
           className="sidebar__new-note-btn"
           onClick={onNewNote}
           title="New Note"
@@ -46,7 +47,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           +
         </button>
       </div>
-      
+
       <div className="sidebar__notes-list">
         {notes.length === 0 ? (
           <div className="sidebar__empty-state">
@@ -57,7 +58,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <div
               key={noteTitle}
               className={`sidebar__note-item ${
-                noteTitle === currentNote ? 'sidebar__note-item--active' : ''
+                noteTitle === currentNote ? "sidebar__note-item--active" : ""
               }`}
               onClick={() => onSelectNote(noteTitle)}
             >

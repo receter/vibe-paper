@@ -1,5 +1,6 @@
-import React from 'react';
-import './Header.css';
+import "./Header.css";
+
+import React from "react";
 
 interface HeaderProps {
   /** Current note title */
@@ -13,18 +14,18 @@ interface HeaderProps {
 /**
  * Header component with title and sidebar toggle
  */
-export const Header: React.FC<HeaderProps> = ({ 
-  title, 
-  isSidebarOpen, 
-  onToggleSidebar 
+export const Header: React.FC<HeaderProps> = ({
+  title,
+  isSidebarOpen,
+  onToggleSidebar,
 }) => {
   return (
     <header className="header">
       <h1 className="header__title">{title}</h1>
-      <button 
+      <button
         className="header__sidebar-toggle"
         onClick={onToggleSidebar}
-        aria-label={isSidebarOpen ? 'Close sidebar' : 'Open sidebar'}
+        aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
       >
         <span className="header__menu-icon">
           <span></span>

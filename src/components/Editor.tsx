@@ -1,5 +1,6 @@
-import React, { useRef, useEffect } from 'react';
-import './Editor.css';
+import "./Editor.css";
+
+import React, { useEffect, useRef } from "react";
 
 interface EditorProps {
   /** Current note content */
@@ -13,10 +14,10 @@ interface EditorProps {
 /**
  * Full-screen editor component
  */
-export const Editor: React.FC<EditorProps> = ({ 
-  content, 
-  onChange, 
-  isSidebarOpen 
+export const Editor: React.FC<EditorProps> = ({
+  content,
+  onChange,
+  isSidebarOpen,
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -32,7 +33,7 @@ export const Editor: React.FC<EditorProps> = ({
   };
 
   return (
-    <div className={`editor ${isSidebarOpen ? 'editor--sidebar-open' : ''}`}>
+    <div className={`editor ${isSidebarOpen ? "editor--sidebar-open" : ""}`}>
       <textarea
         ref={textareaRef}
         className="editor__textarea"
