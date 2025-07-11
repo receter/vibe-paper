@@ -41,11 +41,14 @@ function App() {
       saveNote(currentNoteTitle, debouncedContent);
 
       // Update notes list if this is a new note
-      if (!allNotes.includes(currentNoteTitle)) {
-        setAllNotes((prev) => [...prev, currentNoteTitle].sort());
-      }
+      setAllNotes((prev) => {
+        if (!prev.includes(currentNoteTitle)) {
+          return [...prev, currentNoteTitle].sort();
+        }
+        return prev;
+      });
     }
-  }, [debouncedContent, currentNoteTitle, isInitialized, allNotes]);
+  }, [debouncedContent, currentNoteTitle, isInitialized]);
 
   /**
    * Handle sidebar toggle
