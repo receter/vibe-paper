@@ -32,11 +32,6 @@ function App() {
     const newNoteTitle = generateUniqueRandomName(existingNotes);
     setCurrentNoteTitle(newNoteTitle);
     setNoteContent("");
-
-    // Add the new note to the notes list immediately (in memory only)
-    // This will show it in the sidebar even before it's saved
-    setAllNotes((prev) => [...prev, newNoteTitle].sort());
-
     setIsInitialized(true);
   }, []);
 
@@ -46,11 +41,14 @@ function App() {
       saveNote(currentNoteTitle, debouncedContent);
 
       // Update notes list if this is a new note
-      if (!allNotes.includes(currentNoteTitle)) {
-        setAllNotes((prev) => [...prev, currentNoteTitle].sort());
-      }
+      setAllNotes((prev) => {
+        if (!prev.includes(currentNoteTitle)) {
+          return [...prev, currentNoteTitle].sort();
+        }
+        return prev;
+      });
     }
-  }, [debouncedContent, currentNoteTitle, isInitialized, allNotes]);
+  }, [debouncedContent, currentNoteTitle, isInitialized]);
 
   /**
    * Handle sidebar toggle
@@ -81,11 +79,6 @@ function App() {
     const newNoteTitle = generateUniqueRandomName(allNotes);
     setCurrentNoteTitle(newNoteTitle);
     setNoteContent("");
-
-    // Add the new note to the notes list immediately (in memory only)
-    // This will show it in the sidebar even before it's saved
-    setAllNotes((prev) => [...prev, newNoteTitle].sort());
-
     setIsSidebarOpen(false);
   };
 
